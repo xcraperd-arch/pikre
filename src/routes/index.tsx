@@ -42,7 +42,7 @@ function Nav() {
         </nav>
         <div className="flex items-center gap-2">
           <a href="#" className="hidden h-9 items-center gap-2 rounded-lg px-3 text-sm text-muted-foreground hover:text-foreground md:inline-flex">
-            <Github className="h-4 w-4" /> Star
+            <Star className="h-4 w-4" /> Star
           </a>
           <a
             href="#console"
