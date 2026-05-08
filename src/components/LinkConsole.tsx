@@ -1,38 +1,35 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Sparkles, Link as LinkIcon, Check } from "lucide-react";
-
-const STEPS = [
-  "Scraping website…",
-  "Understanding structure…",
-  "Detecting content type…",
-  "Extracting metadata…",
-  "Building knowledge graph…",
-  "Generating interaction model…",
-];
+import { useNavigate } from "@tanstack/react-router";
+import { ArrowRight, Sparkles, Link as LinkIcon } from "lucide-react";
 
 const EXAMPLES = [
-  "amazon.com/dp/B0CHX1W1XY",
-  "arxiv.org/abs/2410.12345",
-  "stripe.com/docs/api",
-  "news.ycombinator.com",
+  "https://www.amazon.com/dp/B0CHX1W1XY",
+  "https://arxiv.org/abs/2410.12345",
+  "https://stripe.com/docs/api",
+  "https://news.ycombinator.com",
 ];
 
 export function LinkConsole() {
   const [url, setUrl] = useState("");
-  const [running, setRunning] = useState(false);
-  const [step, setStep] = useState(0);
+  const navigate = useNavigate();
+
+  const normalize = (raw: string) => {
+    const v = raw.trim();
+    if (!v) return "";
+    if (/^https?:\/\//i.test(v)) return v;
+    return `https://${v}`;
+  };
 
   const run = (target?: string) => {
-    const value = target ?? url;
+    const value = normalize(target ?? url);
     if (!value) return;
-    setUrl(value);
-    setRunning(true);
-    setStep(0);
-    STEPS.forEach((_, i) => {
-      setTimeout(() => setStep(i + 1), (i + 1) * 650);
-    });
-    setTimeout(() => setRunning(false), STEPS.length * 650 + 1200);
+    try {
+      // validate
+      new URL(value);
+    } catch {
+      return;
+    }
+    navigate({ to: "/analyze", search: { url: value } });
   };
 
   return (
