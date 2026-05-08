@@ -70,46 +70,6 @@ export function LinkConsole() {
         ))}
       </div>
 
-      <AnimatePresence>
-        {running && (
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            className="glass mt-4 rounded-2xl p-4"
-          >
-            <div className="mb-3 flex items-center justify-between">
-              <span className="font-mono text-[10px] uppercase tracking-widest text-primary">
-                live · pikr engine
-              </span>
-              <span className="font-mono text-[10px] text-muted-foreground">
-                {Math.min(step, STEPS.length)}/{STEPS.length}
-              </span>
-            </div>
-            <ul className="space-y-1.5">
-              {STEPS.map((s, i) => {
-                const done = i < step;
-                const active = i === step - 1;
-                return (
-                  <li key={s} className="flex items-center gap-2 font-mono text-xs">
-                    <span
-                      className={`flex h-4 w-4 items-center justify-center rounded-full border ${
-                        done ? "border-primary text-primary" : "border-border text-muted-foreground"
-                      }`}
-                      style={done ? { boxShadow: "0 0 10px var(--cyan)" } : undefined}
-                    >
-                      {done ? <Check className="h-3 w-3" /> : <span className="h-1 w-1 rounded-full bg-current" />}
-                    </span>
-                    <span className={done ? "text-foreground" : active ? "text-primary" : "text-muted-foreground"}>
-                      {s}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
