@@ -1,38 +1,35 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Sparkles, Link as LinkIcon, Check } from "lucide-react";
-
-const STEPS = [
-  "Scraping website…",
-  "Understanding structure…",
-  "Detecting content type…",
-  "Extracting metadata…",
-  "Building knowledge graph…",
-  "Generating interaction model…",
-];
+import { useNavigate } from "@tanstack/react-router";
+import { ArrowRight, Sparkles, Link as LinkIcon } from "lucide-react";
 
 const EXAMPLES = [
-  "amazon.com/dp/B0CHX1W1XY",
-  "arxiv.org/abs/2410.12345",
-  "stripe.com/docs/api",
-  "news.ycombinator.com",
+  "https://www.amazon.com/dp/B0CHX1W1XY",
+  "https://arxiv.org/abs/2410.12345",
+  "https://stripe.com/docs/api",
+  "https://news.ycombinator.com",
 ];
 
 export function LinkConsole() {
   const [url, setUrl] = useState("");
-  const [running, setRunning] = useState(false);
-  const [step, setStep] = useState(0);
+  const navigate = useNavigate();
+
+  const normalize = (raw: string) => {
+    const v = raw.trim();
+    if (!v) return "";
+    if (/^https?:\/\//i.test(v)) return v;
+    return `https://${v}`;
+  };
 
   const run = (target?: string) => {
-    const value = target ?? url;
+    const value = normalize(target ?? url);
     if (!value) return;
-    setUrl(value);
-    setRunning(true);
-    setStep(0);
-    STEPS.forEach((_, i) => {
-      setTimeout(() => setStep(i + 1), (i + 1) * 650);
-    });
-    setTimeout(() => setRunning(false), STEPS.length * 650 + 1200);
+    try {
+      // validate
+      new URL(value);
+    } catch {
+      return;
+    }
+    navigate({ to: "/analyze", search: { url: value } });
   };
 
   return (
@@ -73,46 +70,6 @@ export function LinkConsole() {
         ))}
       </div>
 
-      <AnimatePresence>
-        {running && (
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            className="glass mt-4 rounded-2xl p-4"
-          >
-            <div className="mb-3 flex items-center justify-between">
-              <span className="font-mono text-[10px] uppercase tracking-widest text-primary">
-                live · pikr engine
-              </span>
-              <span className="font-mono text-[10px] text-muted-foreground">
-                {Math.min(step, STEPS.length)}/{STEPS.length}
-              </span>
-            </div>
-            <ul className="space-y-1.5">
-              {STEPS.map((s, i) => {
-                const done = i < step;
-                const active = i === step - 1;
-                return (
-                  <li key={s} className="flex items-center gap-2 font-mono text-xs">
-                    <span
-                      className={`flex h-4 w-4 items-center justify-center rounded-full border ${
-                        done ? "border-primary text-primary" : "border-border text-muted-foreground"
-                      }`}
-                      style={done ? { boxShadow: "0 0 10px var(--cyan)" } : undefined}
-                    >
-                      {done ? <Check className="h-3 w-3" /> : <span className="h-1 w-1 rounded-full bg-current" />}
-                    </span>
-                    <span className={done ? "text-foreground" : active ? "text-primary" : "text-muted-foreground"}>
-                      {s}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
