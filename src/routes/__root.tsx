@@ -75,11 +75,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "PIKR AI — The AI Internet Intelligence Layer" },
       { name: "description", content: "Paste any link. PIKR turns the internet into chat, APIs, and autonomous agents." },
       { name: "author", content: "PIKR AI" },
-      { property: "og:title", content: "PIKR AI" },
-      { property: "og:description", content: "Jarvis for the internet." },
+      { property: "og:title", content: "PIKR AI — The AI Internet Intelligence Layer" },
+      { property: "og:description", content: "Paste any link. PIKR turns the internet into chat, APIs, and autonomous agents." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "PIKR AI — The AI Internet Intelligence Layer" },
+      { name: "twitter:description", content: "Paste any link. PIKR turns the internet into chat, APIs, and autonomous agents." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c364f3c8-c7ca-4989-bc71-7b19e729d54e/id-preview-e535a627--fe163267-9768-4d1a-a28c-4a571317fabd.lovable.app-1778254262206.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/c364f3c8-c7ca-4989-bc71-7b19e729d54e/id-preview-e535a627--fe163267-9768-4d1a-a28c-4a571317fabd.lovable.app-1778254262206.png" },
     ],
     links: [
       {
