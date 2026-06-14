@@ -304,16 +304,14 @@ export function AnalyzeWorkspace({ initialUrl }: { initialUrl: string }) {
             </span>
           </div>
 
-          {tab === "chat" && (<></>)}
           {tab === "agents" && (
             <AgentsPanel agents={agents} loading={agentsLoading} />
           )}
           {tab === "trust" && result && (
             <TrustPanel trust={result.trust} />
           )}
-          {tab === "chat" && (<>
-          </>)}
 
+          {tab === "chat" && (<>
           <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto p-5">
             {messages.length === 0 && (
               <div className="flex h-full flex-col items-center justify-center text-center">
