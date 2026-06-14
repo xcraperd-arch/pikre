@@ -242,6 +242,8 @@ export function AnalyzeWorkspace({ initialUrl }: { initialUrl: string }) {
 
         {result && (
           <>
+            <TrustCard trust={result.trust} analyses={result.analysesCount} firstSeen={result.firstSeen} />
+
             <Card icon={FileText} label="summary">
               <p className="text-sm leading-relaxed text-foreground/90">{result.summary}</p>
             </Card>
