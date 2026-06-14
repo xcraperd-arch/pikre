@@ -59,6 +59,12 @@ export function AnalyzeWorkspace({ initialUrl }: { initialUrl: string }) {
         if (cancelled) return;
         setResult(res);
         setStage(STAGES.length);
+        // Kick off agents in background
+        setAgentsLoading(true);
+        runAgentsFn({ data: { twinId: res.twinId } })
+          .then((rows) => { if (!cancelled) setAgents(rows); })
+          .catch(() => { /* non-fatal */ })
+          .finally(() => { if (!cancelled) setAgentsLoading(false); });
       })
       .catch((e: Error) => {
         if (cancelled) return;
