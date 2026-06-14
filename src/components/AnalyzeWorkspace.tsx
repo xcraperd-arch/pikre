@@ -406,6 +406,7 @@ export function AnalyzeWorkspace({ initialUrl }: { initialUrl: string }) {
               </button>
             </div>
           </form>
+          </>)}
         </div>
       </section>
     </div>
@@ -419,6 +420,133 @@ function Card({ icon: Icon, label, children }: { icon: any; label: string; child
         <Icon className="h-3.5 w-3.5" /> {label}
       </div>
       {children}
+    </div>
+  );
+}
+
+function TabBtn({ active, onClick, icon: Icon, label }: { active: boolean; onClick: () => void; icon: any; label: string }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 font-mono text-[11px] uppercase tracking-widest transition-colors ${
+        active ? "text-primary" : "text-muted-foreground hover:text-foreground"
+      }`}
+      style={active ? { background: "color-mix(in oklab, var(--cyan) 12%, transparent)" } : undefined}
+    >
+      <Icon className="h-3.5 w-3.5" /> {label}
+    </button>
+  );
+}
+
+function TrustCard({ trust, analyses, firstSeen }: { trust: AnalyzeResult["trust"]; analyses: number; firstSeen: string }) {
+  const Icon = trust.score >= 70 ? ShieldCheck : trust.score >= 40 ? Shield : ShieldAlert;
+  const color = trust.score >= 70 ? "var(--cyan)" : trust.score >= 40 ? "#f5a524" : "#ef4444";
+  return (
+    <div className="glass rounded-2xl p-5">
+      <div className="mb-3 flex items-center justify-between">
+        <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-primary">
+          <Shield className="h-3.5 w-3.5" /> trust engine
+        </div>
+        <span className="font-mono text-[10px] text-muted-foreground">analyzed {analyses}×</span>
+      </div>
+      <div className="flex items-center gap-4">
+        <div className="relative flex h-16 w-16 items-center justify-center rounded-full" style={{ background: `radial-gradient(circle at 30% 30%, ${color}33, transparent 70%)`, boxShadow: `0 0 20px ${color}55` }}>
+          <Icon className="h-7 w-7" style={{ color }} />
+        </div>
+        <div className="flex-1">
+          <div className="text-3xl font-semibold text-gradient">{trust.score}</div>
+          <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">trust score · scam risk {trust.scamRisk}</div>
+        </div>
+      </div>
+      <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+        <Pill label="auth" value={trust.authenticity} />
+        <Pill label="sec" value={trust.security} />
+        <Pill label="legit" value={trust.legitimacy} />
+      </div>
+      <div className="mt-3 font-mono text-[10px] text-muted-foreground">first seen {new Date(firstSeen).toLocaleDateString()}</div>
+    </div>
+  );
+}
+
+function Pill({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded-lg border border-border/60 bg-background/40 px-2 py-1.5">
+      <div className="text-sm font-semibold text-foreground">{value}</div>
+      <div className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground">{label}</div>
+    </div>
+  );
+}
+
+function TrustPanel({ trust }: { trust: AnalyzeResult["trust"] }) {
+  return (
+    <div className="flex-1 space-y-3 overflow-y-auto p-5">
+      <h3 className="text-base font-semibold text-gradient-soft">Trust signals</h3>
+      <ul className="space-y-2">
+        {trust.signals.map((s) => (
+          <li key={s.label} className="flex items-center justify-between rounded-lg border border-border/60 bg-background/30 px-3 py-2 text-sm">
+            <span className="text-foreground/90">{s.label}</span>
+            <span
+              className="rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest"
+              style={{
+                background: s.ok ? "color-mix(in oklab, var(--cyan) 18%, transparent)" : "color-mix(in oklab, #ef4444 18%, transparent)",
+                color: s.ok ? "var(--cyan)" : "#ef4444",
+              }}
+            >
+              {s.ok ? "pass" : "fail"}{s.detail ? ` · ${s.detail}` : ""}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+const AGENT_LABELS: Record<string, string> = {
+  research: "Research", security: "Security", product: "Product", api: "API",
+  business: "Business", growth: "Growth", legal: "Legal", education: "Education",
+};
+
+function AgentsPanel({ agents, loading }: { agents: AgentReport[]; loading: boolean }) {
+  const [open, setOpen] = useState<string | null>(agents[0]?.agent ?? null);
+  useEffect(() => { if (!open && agents.length) setOpen(agents[0].agent); }, [agents, open]);
+  if (loading && agents.length === 0) {
+    return (
+      <div className="flex flex-1 items-center justify-center p-8 text-sm text-muted-foreground">
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Dispatching 8 specialized agents…
+      </div>
+    );
+  }
+  if (agents.length === 0) {
+    return <div className="flex-1 p-8 text-sm text-muted-foreground">No agent reports yet.</div>;
+  }
+  const active = agents.find((a) => a.agent === open) ?? agents[0];
+  return (
+    <div className="flex min-h-0 flex-1 flex-col">
+      <div className="flex gap-1 overflow-x-auto border-b border-border/60 px-3 py-2">
+        {agents.map((a) => (
+          <button
+            key={a.agent}
+            onClick={() => setOpen(a.agent)}
+            className={`shrink-0 rounded-lg px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest ${
+              open === a.agent ? "text-primary" : "text-muted-foreground hover:text-foreground"
+            }`}
+            style={open === a.agent ? { background: "color-mix(in oklab, var(--cyan) 14%, transparent)" } : undefined}
+          >
+            {AGENT_LABELS[a.agent] ?? a.agent}
+          </button>
+        ))}
+      </div>
+      <div className="flex-1 overflow-y-auto p-5">
+        {active.payload.error ? (
+          <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-xs text-destructive-foreground">
+            {active.payload.error}
+          </div>
+        ) : (
+          <div className="prose prose-sm prose-invert max-w-none prose-headings:text-foreground prose-strong:text-foreground prose-code:text-primary">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{active.payload.text ?? ""}</ReactMarkdown>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
