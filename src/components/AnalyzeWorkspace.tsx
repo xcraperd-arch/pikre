@@ -293,17 +293,26 @@ export function AnalyzeWorkspace({ initialUrl }: { initialUrl: string }) {
       {/* RIGHT: chat */}
       <section className="flex min-h-0 flex-col">
         <div className="glass flex min-h-[600px] flex-1 flex-col overflow-hidden rounded-2xl">
-          <div className="flex items-center justify-between border-b border-border/60 px-5 py-3">
-            <div className="flex items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-primary" style={{ boxShadow: "0 0 10px var(--cyan)" }} />
-              <span className="font-mono text-[11px] uppercase tracking-widest text-foreground">
-                pikr · live conversation
-              </span>
+          <div className="flex items-center justify-between border-b border-border/60 px-4 py-2">
+            <div className="flex items-center gap-1">
+              <TabBtn active={tab === "chat"} onClick={() => setTab("chat")} icon={Wand2} label="chat" />
+              <TabBtn active={tab === "agents"} onClick={() => setTab("agents")} icon={Bot} label={`agents${agents.length ? ` · ${agents.length}` : agentsLoading ? " · running" : ""}`} />
+              <TabBtn active={tab === "trust"} onClick={() => setTab("trust")} icon={Shield} label="trust" />
             </div>
             <span className="font-mono text-[10px] text-muted-foreground">
               {result ? "ready" : loading ? "thinking…" : "idle"}
             </span>
           </div>
+
+          {tab === "chat" && (<></>)}
+          {tab === "agents" && (
+            <AgentsPanel agents={agents} loading={agentsLoading} />
+          )}
+          {tab === "trust" && result && (
+            <TrustPanel trust={result.trust} />
+          )}
+          {tab === "chat" && (<>
+          </>)}
 
           <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto p-5">
             {messages.length === 0 && (
