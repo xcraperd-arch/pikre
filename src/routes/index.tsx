@@ -37,8 +37,8 @@ function Nav() {
         <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
           <a href="#features" className="hover:text-foreground">Features</a>
           <a href="#how" className="hover:text-foreground">How it works</a>
+          <Link to="/twins" className="hover:text-foreground">Twin Library</Link>
           <a href="#pricing" className="hover:text-foreground">Pricing</a>
-          <a href="#docs" className="hover:text-foreground">Docs</a>
         </nav>
         <div className="flex items-center gap-2">
           <a href="#" className="hidden h-9 items-center gap-2 rounded-lg px-3 text-sm text-muted-foreground hover:text-foreground md:inline-flex">
