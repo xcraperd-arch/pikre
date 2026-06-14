@@ -48,7 +48,7 @@ export type TwinSummary = {
 
 export type AgentReport = {
   agent: string;
-  payload: Record<string, unknown>;
+  payload: { label?: string; text?: string; error?: string };
   created_at: string;
 };
 
