@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Star } from "lucide-react";
 import { AiGlobe } from "@/components/AiGlobe";
 import { LinkConsole } from "@/components/LinkConsole";
