@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Sparkles, Loader2, Globe, FileText, Tag, Link as LinkIcon, ArrowLeft, Wand2 } from "lucide-react";
+import { Send, Sparkles, Loader2, Globe, FileText, Tag, Link as LinkIcon, ArrowLeft, Wand2, Shield, Bot, ShieldCheck, ShieldAlert } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { Link } from "@tanstack/react-router";
-import { analyzeUrl, type AnalyzeResult } from "@/lib/pikr.functions";
+import { analyzeUrl, runAgents, type AnalyzeResult, type AgentReport } from "@/lib/pikr.functions";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
