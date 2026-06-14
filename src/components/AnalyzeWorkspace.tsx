@@ -28,10 +28,14 @@ const STAGES = [
 
 export function AnalyzeWorkspace({ initialUrl }: { initialUrl: string }) {
   const analyze = useServerFn(analyzeUrl);
+  const runAgentsFn = useServerFn(runAgents);
   const [result, setResult] = useState<AnalyzeResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [stage, setStage] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [agents, setAgents] = useState<AgentReport[]>([]);
+  const [agentsLoading, setAgentsLoading] = useState(false);
+  const [tab, setTab] = useState<"chat" | "agents" | "trust">("chat");
 
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
