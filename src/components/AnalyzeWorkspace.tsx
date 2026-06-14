@@ -103,7 +103,7 @@ export function AnalyzeWorkspace({ initialUrl }: { initialUrl: string }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages: next,
-          context: result.markdown,
+          twinId: result.twinId,
           url: result.url,
         }),
       });
