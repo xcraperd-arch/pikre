@@ -37,7 +37,7 @@ function ComparePage() {
   const [loading, setLoading] = useState(false);
   const [stage, setStage] = useState(0);
 
-  const parsedUrls = (urls ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+  const parsedUrls = (urls ?? "").split(",").map((s: string) => s.trim()).filter(Boolean);
 
   useEffect(() => {
     if (parsedUrls.length < 2) return;
@@ -80,7 +80,7 @@ function ComparePage() {
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        {parsedUrls.map((u) => (
+        {parsedUrls.map((u: string) => (
           <a key={u} href={u} target="_blank" rel="noreferrer" className="rounded-full border border-border/60 bg-surface/40 px-3 py-1 font-mono text-xs text-muted-foreground hover:border-primary/50 hover:text-primary">
             {new URL(u).hostname.replace(/^www\./, "")}
           </a>

@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TwinsRouteImport } from './routes/twins'
+import { Route as CompareRouteImport } from './routes/compare'
 import { Route as AnalyzeRouteImport } from './routes/analyze'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -17,6 +18,11 @@ import { Route as ApiChatRouteImport } from './routes/api/chat'
 const TwinsRoute = TwinsRouteImport.update({
   id: '/twins',
   path: '/twins',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareRoute = CompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnalyzeRoute = AnalyzeRouteImport.update({
@@ -38,12 +44,14 @@ const ApiChatRoute = ApiChatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analyze': typeof AnalyzeRoute
+  '/compare': typeof CompareRoute
   '/twins': typeof TwinsRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analyze': typeof AnalyzeRoute
+  '/compare': typeof CompareRoute
   '/twins': typeof TwinsRoute
   '/api/chat': typeof ApiChatRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analyze': typeof AnalyzeRoute
+  '/compare': typeof CompareRoute
   '/twins': typeof TwinsRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/analyze' | '/twins' | '/api/chat'
+  fullPaths: '/' | '/analyze' | '/compare' | '/twins' | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/analyze' | '/twins' | '/api/chat'
-  id: '__root__' | '/' | '/analyze' | '/twins' | '/api/chat'
+  to: '/' | '/analyze' | '/compare' | '/twins' | '/api/chat'
+  id: '__root__' | '/' | '/analyze' | '/compare' | '/twins' | '/api/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyzeRoute: typeof AnalyzeRoute
+  CompareRoute: typeof CompareRoute
   TwinsRoute: typeof TwinsRoute
   ApiChatRoute: typeof ApiChatRoute
 }
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/twins'
       fullPath: '/twins'
       preLoaderRoute: typeof TwinsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare': {
+      id: '/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof CompareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/analyze': {
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyzeRoute: AnalyzeRoute,
+  CompareRoute: CompareRoute,
   TwinsRoute: TwinsRoute,
   ApiChatRoute: ApiChatRoute,
 }
