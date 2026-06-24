@@ -60,30 +60,37 @@ function TwinCard({ twin }: { twin: TwinSummary }) {
     <Link
       to="/analyze"
       search={{ url: twin.canonical_url }}
-      className="glass group block rounded-2xl p-5 transition-transform hover:-translate-y-0.5"
+      className="glass group block overflow-hidden rounded-2xl transition-transform hover:-translate-y-0.5"
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-primary">
-          <Globe className="h-3.5 w-3.5" /> {twin.host}
+      {twin.screenshot_url ? (
+        <div className="aspect-video w-full overflow-hidden bg-background/40">
+          <img src={twin.screenshot_url} alt={twin.title ?? twin.host} loading="lazy" className="h-full w-full object-cover object-top transition-transform group-hover:scale-[1.02]" onError={(e) => { (e.currentTarget.parentElement as HTMLElement).style.display = "none"; }} />
         </div>
-        {trust !== null && (
-          <div
-            className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px]"
-            style={{ background: `color-mix(in oklab, ${trustColor} 16%, transparent)`, color: trustColor }}
-          >
-            <Shield className="h-3 w-3" /> {trust}
+      ) : null}
+      <div className="p-5">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-primary">
+            <Globe className="h-3.5 w-3.5" /> {twin.host}
           </div>
-        )}
-      </div>
-      <h3 className="mt-3 line-clamp-2 text-base font-semibold text-foreground">
-        {twin.title ?? twin.canonical_url}
-      </h3>
-      {twin.summary && <p className="mt-2 line-clamp-3 text-xs text-muted-foreground">{twin.summary}</p>}
-      <div className="mt-4 flex items-center justify-between font-mono text-[10px] text-muted-foreground">
-        <span>{twin.category ?? "webpage"} · {twin.analyses_count}×</span>
-        <span className="inline-flex items-center gap-1 text-primary opacity-0 transition-opacity group-hover:opacity-100">
-          open <ArrowRight className="h-3 w-3" />
-        </span>
+          {trust !== null && (
+            <div
+              className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px]"
+              style={{ background: `color-mix(in oklab, ${trustColor} 16%, transparent)`, color: trustColor }}
+            >
+              <Shield className="h-3 w-3" /> {trust}
+            </div>
+          )}
+        </div>
+        <h3 className="mt-3 line-clamp-2 text-base font-semibold text-foreground">
+          {twin.title ?? twin.canonical_url}
+        </h3>
+        {twin.summary && <p className="mt-2 line-clamp-3 text-xs text-muted-foreground">{twin.summary}</p>}
+        <div className="mt-4 flex items-center justify-between font-mono text-[10px] text-muted-foreground">
+          <span>{twin.category ?? "webpage"} · {twin.analyses_count}×</span>
+          <span className="inline-flex items-center gap-1 text-primary opacity-0 transition-opacity group-hover:opacity-100">
+            open <ArrowRight className="h-3 w-3" />
+          </span>
+        </div>
       </div>
     </Link>
   );

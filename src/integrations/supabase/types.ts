@@ -49,11 +49,80 @@ export type Database = {
           },
         ]
       }
+      twin_comparisons: {
+        Row: {
+          created_at: string
+          id: string
+          report: Json
+          title: string | null
+          twin_ids: string[]
+          urls: string[]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          report?: Json
+          title?: string | null
+          twin_ids: string[]
+          urls: string[]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          report?: Json
+          title?: string | null
+          twin_ids?: string[]
+          urls?: string[]
+        }
+        Relationships: []
+      }
+      twin_debates: {
+        Row: {
+          consensus_score: number | null
+          created_at: string
+          id: string
+          side_a: Json
+          side_b: Json
+          topic: string
+          twin_id: string
+          verdict: Json
+        }
+        Insert: {
+          consensus_score?: number | null
+          created_at?: string
+          id?: string
+          side_a?: Json
+          side_b?: Json
+          topic: string
+          twin_id: string
+          verdict?: Json
+        }
+        Update: {
+          consensus_score?: number | null
+          created_at?: string
+          id?: string
+          side_a?: Json
+          side_b?: Json
+          topic?: string
+          twin_id?: string
+          verdict?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "twin_debates_twin_id_fkey"
+            columns: ["twin_id"]
+            isOneToOne: false
+            referencedRelation: "website_twins"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       twin_documents: {
         Row: {
           chunk_index: number
           content: string
           created_at: string
+          embedding: string | null
           id: string
           tokens: number | null
           twin_id: string
@@ -62,6 +131,7 @@ export type Database = {
           chunk_index: number
           content: string
           created_at?: string
+          embedding?: string | null
           id?: string
           tokens?: number | null
           twin_id: string
@@ -70,6 +140,7 @@ export type Database = {
           chunk_index?: number
           content?: string
           created_at?: string
+          embedding?: string | null
           id?: string
           tokens?: number | null
           twin_id?: string
@@ -140,12 +211,17 @@ export type Database = {
           last_seen: string
           links: Json
           markdown: string | null
+          mobile_screenshot_url: string | null
+          products: Json
+          scores: Json
+          screenshot_url: string | null
           summary: string | null
           tech_stack: Json
           title: string | null
           trust: Json
           updated_at: string
           word_count: number
+          xray: Json
         }
         Insert: {
           analyses_count?: number
@@ -161,12 +237,17 @@ export type Database = {
           last_seen?: string
           links?: Json
           markdown?: string | null
+          mobile_screenshot_url?: string | null
+          products?: Json
+          scores?: Json
+          screenshot_url?: string | null
           summary?: string | null
           tech_stack?: Json
           title?: string | null
           trust?: Json
           updated_at?: string
           word_count?: number
+          xray?: Json
         }
         Update: {
           analyses_count?: number
@@ -182,12 +263,17 @@ export type Database = {
           last_seen?: string
           links?: Json
           markdown?: string | null
+          mobile_screenshot_url?: string | null
+          products?: Json
+          scores?: Json
+          screenshot_url?: string | null
           summary?: string | null
           tech_stack?: Json
           title?: string | null
           trust?: Json
           updated_at?: string
           word_count?: number
+          xray?: Json
         }
         Relationships: []
       }
@@ -196,7 +282,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      match_twin_documents: {
+        Args: { p_embedding: string; p_match_count?: number; p_twin_id: string }
+        Returns: {
+          chunk_index: number
+          content: string
+          id: string
+          similarity: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
