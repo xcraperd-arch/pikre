@@ -500,7 +500,7 @@ export const analyzeUrl = createServerFn({ method: "POST" })
           chunk_index: i,
           content,
           tokens: Math.ceil(content.length / 4),
-          embedding: embeddings[i] ?? null,
+          embedding: embeddings[i] ? (`[${embeddings[i]!.join(",")}]` as unknown as string) : null,
         }))
       );
     }
