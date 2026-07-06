@@ -14,6 +14,99 @@ export type Database = {
   }
   public: {
     Tables: {
+      api_keys: {
+        Row: {
+          created_at: string
+          id: string
+          key_hash: string
+          last_used_at: string | null
+          name: string
+          prefix: string
+          revoked_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          key_hash: string
+          last_used_at?: string | null
+          name: string
+          prefix: string
+          revoked_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          key_hash?: string
+          last_used_at?: string | null
+          name?: string
+          prefix?: string
+          revoked_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      pikr_logs: {
+        Row: {
+          created_at: string
+          data: Json
+          event: string
+          id: string
+          level: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          data?: Json
+          event: string
+          id?: string
+          level?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          data?: Json
+          event?: string
+          id?: string
+          level?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          analyses_this_month: number
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          plan: Database["public"]["Enums"]["pikr_plan"]
+          updated_at: string
+          usage_reset_at: string
+        }
+        Insert: {
+          analyses_this_month?: number
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id: string
+          plan?: Database["public"]["Enums"]["pikr_plan"]
+          updated_at?: string
+          usage_reset_at?: string
+        }
+        Update: {
+          analyses_this_month?: number
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          plan?: Database["public"]["Enums"]["pikr_plan"]
+          updated_at?: string
+          usage_reset_at?: string
+        }
+        Relationships: []
+      }
       twin_agent_reports: {
         Row: {
           agent: string
@@ -49,10 +142,53 @@ export type Database = {
           },
         ]
       }
+      twin_alerts: {
+        Row: {
+          created_at: string
+          detail: string | null
+          id: string
+          read_at: string | null
+          severity: string
+          title: string
+          twin_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          detail?: string | null
+          id?: string
+          read_at?: string | null
+          severity?: string
+          title: string
+          twin_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          detail?: string | null
+          id?: string
+          read_at?: string | null
+          severity?: string
+          title?: string
+          twin_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "twin_alerts_twin_id_fkey"
+            columns: ["twin_id"]
+            isOneToOne: false
+            referencedRelation: "website_twins"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       twin_comparisons: {
         Row: {
           created_at: string
           id: string
+          is_public: boolean
+          owner_id: string | null
           report: Json
           title: string | null
           twin_ids: string[]
@@ -61,6 +197,8 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          is_public?: boolean
+          owner_id?: string | null
           report?: Json
           title?: string | null
           twin_ids: string[]
@@ -69,6 +207,8 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          is_public?: boolean
+          owner_id?: string | null
           report?: Json
           title?: string | null
           twin_ids?: string[]
@@ -81,6 +221,8 @@ export type Database = {
           consensus_score: number | null
           created_at: string
           id: string
+          is_public: boolean
+          owner_id: string | null
           side_a: Json
           side_b: Json
           topic: string
@@ -91,6 +233,8 @@ export type Database = {
           consensus_score?: number | null
           created_at?: string
           id?: string
+          is_public?: boolean
+          owner_id?: string | null
           side_a?: Json
           side_b?: Json
           topic: string
@@ -101,6 +245,8 @@ export type Database = {
           consensus_score?: number | null
           created_at?: string
           id?: string
+          is_public?: boolean
+          owner_id?: string | null
           side_a?: Json
           side_b?: Json
           topic?: string
@@ -155,6 +301,100 @@ export type Database = {
           },
         ]
       }
+      twin_entities: {
+        Row: {
+          confidence: number | null
+          created_at: string
+          id: string
+          kind: string
+          name: string
+          twin_id: string
+          value: string | null
+        }
+        Insert: {
+          confidence?: number | null
+          created_at?: string
+          id?: string
+          kind: string
+          name: string
+          twin_id: string
+          value?: string | null
+        }
+        Update: {
+          confidence?: number | null
+          created_at?: string
+          id?: string
+          kind?: string
+          name?: string
+          twin_id?: string
+          value?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "twin_entities_twin_id_fkey"
+            columns: ["twin_id"]
+            isOneToOne: false
+            referencedRelation: "website_twins"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      twin_reviews: {
+        Row: {
+          author: string | null
+          body: string | null
+          created_at: string
+          id: string
+          posted_at: string | null
+          rating: number | null
+          raw: Json
+          red_flag_tags: string[]
+          sentiment: string | null
+          source: string
+          source_url: string | null
+          title: string | null
+          twin_id: string
+        }
+        Insert: {
+          author?: string | null
+          body?: string | null
+          created_at?: string
+          id?: string
+          posted_at?: string | null
+          rating?: number | null
+          raw?: Json
+          red_flag_tags?: string[]
+          sentiment?: string | null
+          source: string
+          source_url?: string | null
+          title?: string | null
+          twin_id: string
+        }
+        Update: {
+          author?: string | null
+          body?: string | null
+          created_at?: string
+          id?: string
+          posted_at?: string | null
+          rating?: number | null
+          raw?: Json
+          red_flag_tags?: string[]
+          sentiment?: string | null
+          source?: string
+          source_url?: string | null
+          title?: string | null
+          twin_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "twin_reviews_twin_id_fkey"
+            columns: ["twin_id"]
+            isOneToOne: false
+            referencedRelation: "website_twins"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       twin_snapshots: {
         Row: {
           captured_at: string
@@ -196,6 +436,62 @@ export type Database = {
           },
         ]
       }
+      twin_watchlist: {
+        Row: {
+          cadence: string
+          created_at: string
+          id: string
+          last_checked_at: string | null
+          twin_id: string
+          user_id: string
+        }
+        Insert: {
+          cadence?: string
+          created_at?: string
+          id?: string
+          last_checked_at?: string | null
+          twin_id: string
+          user_id: string
+        }
+        Update: {
+          cadence?: string
+          created_at?: string
+          id?: string
+          last_checked_at?: string | null
+          twin_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "twin_watchlist_twin_id_fkey"
+            columns: ["twin_id"]
+            isOneToOne: false
+            referencedRelation: "website_twins"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       website_twins: {
         Row: {
           analyses_count: number
@@ -207,11 +503,13 @@ export type Database = {
           first_seen: string
           host: string
           id: string
+          is_public: boolean
           key_points: Json
           last_seen: string
           links: Json
           markdown: string | null
           mobile_screenshot_url: string | null
+          owner_id: string | null
           products: Json
           scores: Json
           screenshot_url: string | null
@@ -233,11 +531,13 @@ export type Database = {
           first_seen?: string
           host: string
           id?: string
+          is_public?: boolean
           key_points?: Json
           last_seen?: string
           links?: Json
           markdown?: string | null
           mobile_screenshot_url?: string | null
+          owner_id?: string | null
           products?: Json
           scores?: Json
           screenshot_url?: string | null
@@ -259,11 +559,13 @@ export type Database = {
           first_seen?: string
           host?: string
           id?: string
+          is_public?: boolean
           key_points?: Json
           last_seen?: string
           links?: Json
           markdown?: string | null
           mobile_screenshot_url?: string | null
+          owner_id?: string | null
           products?: Json
           scores?: Json
           screenshot_url?: string | null
@@ -282,6 +584,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       match_twin_documents: {
         Args: { p_embedding: string; p_match_count?: number; p_twin_id: string }
         Returns: {
@@ -293,7 +602,8 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
+      pikr_plan: "free" | "pro" | "business"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -420,6 +730,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+      pikr_plan: ["free", "pro", "business"],
+    },
   },
 } as const
