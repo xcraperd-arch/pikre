@@ -1,15 +1,19 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-display: "Space Grotesk", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-display: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 3px);
+  --radius-md: calc(var(--radius) - 1px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
@@ -38,116 +42,235 @@
   --color-magenta: var(--magenta);
   --color-surface: var(--surface);
   --color-surface-elevated: var(--surface-elevated);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
 }
 
+/* ============ Light: clean Linear / Notion ============ */
 :root {
-  --radius: 0.875rem;
+  --radius: 0.5rem;
 
-  /* Deep space palette */
-  --background: oklch(0.13 0.02 270);
-  --foreground: oklch(0.97 0.01 240);
+  --background: #ffffff;
+  --foreground: #18181b;
 
-  --surface: oklch(0.17 0.025 270);
-  --surface-elevated: oklch(0.21 0.03 270);
+  --surface: #fafafa;
+  --surface-elevated: #f4f4f5;
 
-  --card: oklch(0.17 0.025 270);
-  --card-foreground: oklch(0.97 0.01 240);
-  --popover: oklch(0.17 0.025 270);
-  --popover-foreground: oklch(0.97 0.01 240);
+  --card: #ffffff;
+  --card-foreground: #18181b;
+  --popover: #ffffff;
+  --popover-foreground: #18181b;
 
-  /* Electric cyan primary */
-  --primary: oklch(0.82 0.18 210);
-  --primary-foreground: oklch(0.13 0.02 270);
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
 
-  --secondary: oklch(0.25 0.04 270);
-  --secondary-foreground: oklch(0.97 0.01 240);
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
 
-  --muted: oklch(0.22 0.03 270);
-  --muted-foreground: oklch(0.68 0.04 250);
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
 
-  --accent: oklch(0.65 0.25 305);
-  --accent-foreground: oklch(0.97 0.01 240);
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
 
-  --destructive: oklch(0.65 0.25 25);
-  --destructive-foreground: oklch(0.97 0.01 240);
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
 
-  --border: oklch(0.3 0.04 270 / 0.5);
-  --input: oklch(0.22 0.03 270);
-  --ring: oklch(0.82 0.18 210);
+  --success: #16a34a;
+  --warning: #d97706;
 
-  --cyan: oklch(0.85 0.18 200);
-  --violet: oklch(0.65 0.25 295);
-  --magenta: oklch(0.7 0.28 340);
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #3b82f6;
 
-  --gradient-hero: linear-gradient(135deg, oklch(0.85 0.18 200) 0%, oklch(0.65 0.25 295) 50%, oklch(0.7 0.28 340) 100%);
-  --gradient-glow: radial-gradient(circle at 50% 0%, oklch(0.65 0.25 295 / 0.35), transparent 70%);
-  --gradient-text: linear-gradient(180deg, oklch(0.99 0.01 240), oklch(0.78 0.05 250));
+  /* legacy tokens kept so existing components keep rendering */
+  --cyan: #0ea5e9;
+  --violet: #6366f1;
+  --magenta: #db2777;
 
-  --shadow-glow: 0 0 60px -10px oklch(0.82 0.18 210 / 0.5);
-  --shadow-glow-violet: 0 0 80px -10px oklch(0.65 0.25 295 / 0.6);
-  --shadow-elev: 0 20px 60px -20px oklch(0 0 0 / 0.6);
+  --gradient-hero: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  --gradient-glow: none;
+  --gradient-text: none;
+
+  --shadow-glow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-glow-violet: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-elev: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  --shadow-card: 0 0 0 1px rgb(0 0 0 / 0.04), 0 1px 2px 0 rgb(0 0 0 / 0.04);
+}
+
+/* ============ Dark: calm, not neon ============ */
+.dark {
+  --background: #0b0b0e;
+  --foreground: #fafafa;
+
+  --surface: #131317;
+  --surface-elevated: #1b1b21;
+
+  --card: #131317;
+  --card-foreground: #fafafa;
+  --popover: #131317;
+  --popover-foreground: #fafafa;
+
+  --primary: #60a5fa;
+  --primary-foreground: #0b0b0e;
+
+  --secondary: #1b1b21;
+  --secondary-foreground: #fafafa;
+
+  --muted: #1b1b21;
+  --muted-foreground: #a1a1aa;
+
+  --accent: #1b1b21;
+  --accent-foreground: #fafafa;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --success: #22c55e;
+  --warning: #f59e0b;
+
+  --border: #27272a;
+  --input: #27272a;
+  --ring: #60a5fa;
+
+  --shadow-elev: 0 1px 3px 0 rgb(0 0 0 / 0.4);
+  --shadow-card: 0 0 0 1px rgb(255 255 255 / 0.05);
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html, body { background: var(--color-background); color: var(--color-foreground); }
+  * {
+    border-color: var(--color-border);
+  }
+  html,
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
   body {
     font-family: var(--font-display);
-    font-feature-settings: "ss01", "cv11";
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-font-smoothing: antialiased;
-    background-image:
-      radial-gradient(ellipse 80% 60% at 50% -10%, oklch(0.65 0.25 295 / 0.25), transparent 60%),
-      radial-gradient(ellipse 60% 50% at 90% 30%, oklch(0.85 0.18 200 / 0.15), transparent 60%),
-      radial-gradient(ellipse 60% 50% at 10% 70%, oklch(0.7 0.28 340 / 0.12), transparent 60%);
-    background-attachment: fixed;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.011em;
+    /* no more fixed neon radial washes */
+    background-image: none;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    letter-spacing: -0.022em;
   }
 }
 
 @layer utilities {
-  .font-mono { font-family: var(--font-mono); }
-  .text-gradient {
-    background: var(--gradient-hero);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+  .font-mono {
+    font-family: var(--font-mono);
   }
+
+  /* Gradient text now resolves to plain ink — keeps old markup working */
+  .text-gradient,
   .text-gradient-soft {
-    background: var(--gradient-text);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    background: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    color: var(--color-foreground);
   }
+
+  /* Flat card replaces frosted glass */
   .glass {
-    background: color-mix(in oklab, var(--surface) 60%, transparent);
-    backdrop-filter: blur(20px) saturate(140%);
-    border: 1px solid var(--border);
+    background: var(--color-card);
+    backdrop-filter: none;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
   }
+
   .glow-ring {
-    box-shadow: var(--shadow-glow);
+    box-shadow: none;
   }
+
   .grid-bg {
-    background-image:
-      linear-gradient(to right, oklch(0.3 0.04 270 / 0.25) 1px, transparent 1px),
-      linear-gradient(to bottom, oklch(0.3 0.04 270 / 0.25) 1px, transparent 1px);
-    background-size: 56px 56px;
-    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent 80%);
+    background-image: none;
+  }
+
+  .card-hover {
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  .card-hover:hover {
+    border-color: color-mix(in srgb, var(--color-foreground) 18%, transparent);
+    box-shadow: var(--shadow-elev);
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: var(--color-primary-foreground);
+    transition: opacity 0.15s ease;
+  }
+  .btn-primary:hover {
+    opacity: 0.9;
   }
 }
 
-@keyframes orbit {
-  from { transform: rotate(0deg) translateX(var(--r,140px)) rotate(0deg); }
-  to { transform: rotate(360deg) translateX(var(--r,140px)) rotate(-360deg); }
+/* ================================================================
+   Remove the injected "Edit with Lovable" badge from the published
+   site. Covers every id/class/attribute variant the injector uses.
+   ================================================================ */
+#lovable-badge,
+.lovable-badge,
+a#lovable-badge,
+a.lovable-badge,
+[id^="lovable-badge"],
+[class*="lovable-badge"],
+[data-lovable-badge],
+a[href*="lovable.dev/projects"],
+a[href*="lovable.dev?utm"],
+a[href*="lovable.app/?utm"],
+iframe[src*="lovable-badge"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  position: absolute !important;
+  left: -99999px !important;
 }
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
-}
+
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 .animate-shimmer {
-  background: linear-gradient(90deg, transparent, oklch(0.85 0.18 200 / 0.4), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--color-primary) 30%, transparent),
+    transparent
+  );
   background-size: 200% 100%;
   animation: shimmer 2s linear infinite;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes orbit {
+  from {
+    transform: rotate(0deg) translateX(var(--r, 140px)) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(var(--r, 140px)) rotate(-360deg);
+  }
 }
