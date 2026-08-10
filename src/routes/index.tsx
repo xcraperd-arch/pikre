@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { UserMenu } from "@/components/UserMenu";
 import { AiGlobe } from "@/components/AiGlobe";
 import { LinkConsole } from "@/components/LinkConsole";
 import { FeatureGrid } from "@/components/FeatureGrid";
