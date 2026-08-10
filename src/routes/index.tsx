@@ -25,32 +25,28 @@ export const Route = createFileRoute("/")({
 
 function Nav() {
   return (
-    <header className="sticky top-0 z-50 border-b border-border/40 bg-background/60 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-6">
-        <div className="flex items-center gap-2">
-          <div
-            className="h-7 w-7 rounded-lg"
-            style={{ background: "var(--gradient-hero)", boxShadow: "var(--shadow-glow)" }}
-          />
-          <span className="font-mono text-sm font-semibold tracking-widest">PIKR.AI</span>
-        </div>
-        <nav className="hidden items-center gap-8 text-sm text-muted-foreground md:flex">
-          <a href="#features" className="hover:text-foreground">Features</a>
-          <a href="#how" className="hover:text-foreground">How it works</a>
-          <Link to="/twins" className="hover:text-foreground">Twin Library</Link>
-          <a href="#pricing" className="hover:text-foreground">Pricing</a>
+    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
+      <div className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between px-6">
+        <Link to="/" className="flex items-center gap-2">
+          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-[13px] font-bold text-primary-foreground">
+            P
+          </div>
+          <span className="text-sm font-semibold tracking-tight">PIKR</span>
+        </Link>
+        <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
+          <a href="#features" className="transition-colors hover:text-foreground">Features</a>
+          <a href="#how" className="transition-colors hover:text-foreground">How it works</a>
+          <Link to="/twins" className="transition-colors hover:text-foreground">Library</Link>
+          <Link to="/compare" search={{}} className="transition-colors hover:text-foreground">Compare</Link>
         </nav>
         <div className="flex items-center gap-2">
-          <a href="#" className="hidden h-9 items-center gap-2 rounded-lg px-3 text-sm text-muted-foreground hover:text-foreground md:inline-flex">
-            <Star className="h-4 w-4" /> Star
-          </a>
           <a
             href="#console"
-            className="inline-flex h-9 items-center gap-1.5 rounded-lg px-4 text-sm font-semibold text-primary-foreground"
-            style={{ background: "var(--gradient-hero)", boxShadow: "var(--shadow-glow)" }}
+            className="hidden h-8 items-center gap-1.5 rounded-lg border border-border px-3 text-sm font-medium transition-colors hover:bg-accent sm:inline-flex"
           >
-            Launch <ArrowRight className="h-3.5 w-3.5" />
+            Analyze a link <ArrowRight className="h-3.5 w-3.5" />
           </a>
+          <UserMenu />
         </div>
       </div>
     </header>
