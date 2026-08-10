@@ -386,11 +386,41 @@ Only include score numbers when the page genuinely supports them. Do not fabrica
 
 const InputSchema = z.object({ url: z.string().url().max(2048) });
 
+/**
+ * Resolve the signed-in user from the bearer token when one is present.
+ * Analysis stays usable signed-out, but signed-in runs are attributed to the
+ * user's private library and counted against their plan.
+ */
+async function optionalUserId(): Promise<string | null> {
+  try {
+    const { getRequestHeader } = await import("@tanstack/react-start/server");
+    const auth = getRequestHeader("authorization");
+    if (!auth?.startsWith("Bearer ")) return null;
+    const token = auth.slice(7);
+    if (!token) return null;
+    const { createClient } = await import("@supabase/supabase-js");
+    const client = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PUBLISHABLE_KEY!, {
+      auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
+    });
+    const { data, error } = await client.auth.getClaims(token);
+    if (error || !data?.claims?.sub) return null;
+    return data.claims.sub as string;
+  } catch {
+    return null;
+  }
+}
+
 export const analyzeUrl = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => InputSchema.parse(input))
   .handler(async ({ data }): Promise<AnalyzeResult> => {
     const apiKey = process.env.FIRECRAWL_API_KEY;
     if (!apiKey) throw new Error("Firecrawl is not configured. Connect the Firecrawl connector first.");
+
+    const userId = await optionalUserId();
+    if (userId) {
+      const { assertQuotaAndConsume } = await import("./auth.functions");
+      await assertQuotaAndConsume(userId);
+    }
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { embedTexts } = await import("./embeddings.server");

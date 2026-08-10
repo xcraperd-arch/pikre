@@ -6,6 +6,7 @@ import {
   Send, Sparkles, Loader2, Globe, FileText, Tag, Link as LinkIcon, ArrowLeft,
   Wand2, Shield, Bot, ShieldCheck, ShieldAlert, Image as ImageIcon, ShoppingBag,
   Scale, Eye, AlertTriangle, CheckCircle2, ThumbsUp, ThumbsDown, Gavel,
+  ScanSearch, MousePointerClick,
 } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { Link } from "@tanstack/react-router";
@@ -13,6 +14,8 @@ import {
   analyzeUrl, runAgents, runDebate, listDebates,
   type AnalyzeResult, type AgentReport, type DebateRecord, type PikrScores, type XRayReport, type ProductItem,
 } from "@/lib/pikr.functions";
+import { RealityPanel } from "@/components/RealityPanel";
+import { InteractPanel } from "@/components/InteractPanel";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -33,7 +36,7 @@ const STAGES = [
   "Indexing for chat…",
 ];
 
-type Tab = "chat" | "agents" | "trust" | "xray" | "products" | "debate" | "visual";
+type Tab = "chat" | "agents" | "trust" | "xray" | "products" | "debate" | "visual" | "reality" | "interact";
 
 export function AnalyzeWorkspace({ initialUrl }: { initialUrl: string }) {
   const analyze = useServerFn(analyzeUrl);
@@ -289,6 +292,8 @@ export function AnalyzeWorkspace({ initialUrl }: { initialUrl: string }) {
               <TabBtn active={tab === "agents"} onClick={() => setTab("agents")} icon={Bot} label={`agents${agents.length ? ` · ${agents.length}` : agentsLoading ? " · running" : ""}`} />
               <TabBtn active={tab === "debate"} onClick={() => setTab("debate")} icon={Scale} label={`debate${debates.length ? ` · ${debates.length}` : ""}`} />
               <TabBtn active={tab === "trust"} onClick={() => setTab("trust")} icon={Shield} label="trust" />
+              <TabBtn active={tab === "reality"} onClick={() => setTab("reality")} icon={ScanSearch} label="reality" />
+              <TabBtn active={tab === "interact"} onClick={() => setTab("interact")} icon={MousePointerClick} label="interact" />
             </div>
             <span className="font-mono text-[10px] text-muted-foreground shrink-0">{result ? "ready" : loading ? "thinking…" : "idle"}</span>
           </div>
@@ -298,6 +303,10 @@ export function AnalyzeWorkspace({ initialUrl }: { initialUrl: string }) {
           {tab === "xray" && result && <XRayPanel xray={result.xray} />}
           {tab === "products" && result && <ProductsPanel products={result.products} />}
           {tab === "visual" && result && <VisualPanel screenshot={result.screenshotUrl} url={result.url} />}
+          {tab === "reality" && (
+            <RealityPanel twinId={result?.twinId ?? null} host={result?.host ?? ""} />
+          )}
+          {tab === "interact" && <InteractPanel pageUrl={result?.url ?? initialUrl} />}
           {tab === "debate" && result && (
             <DebatePanel
               debates={debates}
