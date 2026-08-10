@@ -13,6 +13,8 @@ import {
   analyzeUrl, runAgents, runDebate, listDebates,
   type AnalyzeResult, type AgentReport, type DebateRecord, type PikrScores, type XRayReport, type ProductItem,
 } from "@/lib/pikr.functions";
+import { RealityPanel } from "@/components/RealityPanel";
+import { InteractPanel } from "@/components/InteractPanel";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -33,7 +35,7 @@ const STAGES = [
   "Indexing for chat…",
 ];
 
-type Tab = "chat" | "agents" | "trust" | "xray" | "products" | "debate" | "visual";
+type Tab = "chat" | "agents" | "trust" | "xray" | "products" | "debate" | "visual" | "reality" | "interact";
 
 export function AnalyzeWorkspace({ initialUrl }: { initialUrl: string }) {
   const analyze = useServerFn(analyzeUrl);
