@@ -109,11 +109,12 @@ function Features() {
       <div className="mb-12 max-w-2xl">
         <div className="font-mono text-[11px] uppercase tracking-widest text-primary">/ capabilities</div>
         <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-5xl">
-          One paste. <span className="text-gradient">Six superpowers.</span>
+          One paste. <span className="text-gradient">Six lenses.</span>
         </h2>
         <p className="mt-4 text-muted-foreground">
-          Every URL becomes structured intelligence — ready to chat, query, automate, or monitor.
+          Every URL becomes a structured, queryable twin — content, trust, risk and real-world reputation.
         </p>
+
       </div>
       <FeatureGrid />
     </section>
@@ -122,9 +123,10 @@ function Features() {
 
 function HowItWorks() {
   const steps = [
-    { n: "01", t: "Paste a link", d: "Any URL — product, PDF, paper, dashboard, doc, portal." },
-    { n: "02", t: "PIKR analyzes live", d: "Firecrawl + vision + reasoning build a knowledge graph." },
-    { n: "03", t: "You take action", d: "Chat, generate APIs, deploy agents, or set monitors." },
+    { n: "01", t: "Paste a link", d: "Any public URL — product, store, docs, pricing page, article." },
+    { n: "02", t: "PIKR analyzes live", d: "Firecrawl scrape plus reasoning builds a structured, embedded twin." },
+    { n: "03", t: "You take action", d: "Chat with it, compare it, audit trust and risk, or drive it live." },
+
   ];
   return (
     <section id="how" className="relative mx-auto w-full max-w-7xl px-6 py-24">
@@ -160,8 +162,9 @@ function CTA() {
           The internet just became <span className="text-gradient">understandable.</span>
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-          Join the waitlist for early access to the AI operating layer for the web.
+          Paste a link and get a full intelligence report in seconds. No signup required to try.
         </p>
+
         <a
           href="#console"
           className="mt-8 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-semibold text-primary-foreground"
