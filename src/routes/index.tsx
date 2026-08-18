@@ -78,11 +78,12 @@ function Hero() {
           </div>
 
           <div className="mt-10 flex flex-wrap gap-x-10 gap-y-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">
-            <Stat k="2.4s" v="avg analysis" />
-            <Stat k="180+" v="page types" />
-            <Stat k="99.7%" v="extraction accuracy" />
-            <Stat k="∞" v="agents in parallel" />
+            <Stat k="RAG" v="grounded page chat" />
+            <Stat k="10" v="urls per comparison" />
+            <Stat k="9" v="analysis lenses" />
+            <Stat k="Live" v="browser interaction" />
           </div>
+
         </div>
 
         <div className="relative">

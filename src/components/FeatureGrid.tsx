@@ -1,43 +1,44 @@
-import { Bot, Code2, Eye, MessageSquare, Radar, Sparkles } from "lucide-react";
+import { Bot, Eye, MessageSquare, MousePointerClick, Scale, ScanSearch } from "lucide-react";
 
 const FEATURES = [
   {
     icon: MessageSquare,
-    title: "Chat with any website",
-    desc: "Ask questions, get summaries, detect risks. RAG over the live page.",
+    title: "Chat with any page",
+    desc: "Streaming Q&A grounded in the scraped content via vector retrieval — no invented facts.",
     tag: "rag",
   },
   {
-    icon: Code2,
-    title: "Generate APIs instantly",
-    desc: "Turn any page into REST endpoints, JSON schemas, and SDK snippets.",
-    tag: "api",
+    icon: Scale,
+    title: "Compare up to 10 links",
+    desc: "One report with consensus points, contradictions and a per-URL breakdown.",
+    tag: "compare",
   },
   {
     icon: Bot,
-    title: "Autonomous agents",
-    desc: "Spin up workers that monitor prices, stock, policies — 24/7.",
-    tag: "agent",
+    title: "Multi-agent + debate",
+    desc: "Specialist agents analyze the same twin, then argue it out with a moderated verdict.",
+    tag: "agents",
   },
   {
     icon: Eye,
-    title: "AI overlay mode",
-    desc: "Inline scam warnings, deal scores, and insights right on the page.",
-    tag: "overlay",
+    title: "Trust score & X-Ray",
+    desc: "Deterministic trust scoring plus dark patterns, hidden fees and scam signals.",
+    tag: "trust",
   },
   {
-    icon: Sparkles,
-    title: "Explain modes",
-    desc: "ELI10, investor, technical, Hindi — instant tone & depth control.",
-    tag: "tutor",
+    icon: ScanSearch,
+    title: "Reality vs claimed",
+    desc: "Mines real third-party reviews and contrasts them with what the site says about itself.",
+    tag: "reality",
   },
   {
-    icon: Radar,
-    title: "Live change tracking",
-    desc: "Diff snapshots, semantic deltas, realtime alerts on what matters.",
-    tag: "monitor",
+    icon: MousePointerClick,
+    title: "Live interaction",
+    desc: "Drive the real page — click, fill, scroll, extract — through your own Playwright worker.",
+    tag: "interact",
   },
 ];
+
 
 export function FeatureGrid() {
   return (
