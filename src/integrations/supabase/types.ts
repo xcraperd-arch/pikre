@@ -47,6 +47,131 @@ export type Database = {
         }
         Relationships: []
       }
+      pikr_api_keys: {
+        Row: {
+          calls: number
+          created_at: string
+          id: string
+          key_hash: string
+          key_prefix: string
+          last_used_at: string | null
+          name: string
+          revoked: boolean
+          user_id: string
+        }
+        Insert: {
+          calls?: number
+          created_at?: string
+          id?: string
+          key_hash: string
+          key_prefix: string
+          last_used_at?: string | null
+          name?: string
+          revoked?: boolean
+          user_id: string
+        }
+        Update: {
+          calls?: number
+          created_at?: string
+          id?: string
+          key_hash?: string
+          key_prefix?: string
+          last_used_at?: string | null
+          name?: string
+          revoked?: boolean
+          user_id?: string
+        }
+        Relationships: []
+      }
+      pikr_bookmarks: {
+        Row: {
+          created_at: string
+          id: string
+          note: string | null
+          twin_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          twin_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note?: string | null
+          twin_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pikr_bookmarks_twin_id_fkey"
+            columns: ["twin_id"]
+            isOneToOne: false
+            referencedRelation: "website_twins"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pikr_endpoints: {
+        Row: {
+          calls: number
+          created_at: string
+          description: string | null
+          fields: Json
+          id: string
+          is_public: boolean
+          name: string
+          slug: string
+          source_id: string | null
+          twin_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          calls?: number
+          created_at?: string
+          description?: string | null
+          fields?: Json
+          id?: string
+          is_public?: boolean
+          name: string
+          slug: string
+          source_id?: string | null
+          twin_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          calls?: number
+          created_at?: string
+          description?: string | null
+          fields?: Json
+          id?: string
+          is_public?: boolean
+          name?: string
+          slug?: string
+          source_id?: string | null
+          twin_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pikr_endpoints_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "pikr_sources"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pikr_endpoints_twin_id_fkey"
+            columns: ["twin_id"]
+            isOneToOne: false
+            referencedRelation: "website_twins"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pikr_logs: {
         Row: {
           created_at: string
@@ -71,6 +196,113 @@ export type Database = {
           id?: string
           level?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      pikr_preferences: {
+        Row: {
+          default_lenses: Json
+          industry: string | null
+          interests: Json
+          role: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          default_lenses?: Json
+          industry?: string | null
+          interests?: Json
+          role?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          default_lenses?: Json
+          industry?: string | null
+          interests?: Json
+          role?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      pikr_source_chunks: {
+        Row: {
+          chunk_index: number
+          content: string
+          created_at: string
+          embedding: string | null
+          id: string
+          source_id: string
+        }
+        Insert: {
+          chunk_index?: number
+          content: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          source_id: string
+        }
+        Update: {
+          chunk_index?: number
+          content?: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          source_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pikr_source_chunks_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "pikr_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pikr_sources: {
+        Row: {
+          category: string | null
+          content: string
+          created_at: string
+          id: string
+          key_points: Json
+          kind: string
+          mime: string | null
+          name: string
+          size_bytes: number
+          summary: string | null
+          user_id: string | null
+          word_count: number
+        }
+        Insert: {
+          category?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          key_points?: Json
+          kind?: string
+          mime?: string | null
+          name: string
+          size_bytes?: number
+          summary?: string | null
+          user_id?: string | null
+          word_count?: number
+        }
+        Update: {
+          category?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          key_points?: Json
+          kind?: string
+          mime?: string | null
+          name?: string
+          size_bytes?: number
+          summary?: string | null
+          user_id?: string | null
+          word_count?: number
         }
         Relationships: []
       }
@@ -590,6 +822,13 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      match_source_chunks: {
+        Args: { p_match_count?: number; p_query: string; p_source_id: string }
+        Returns: {
+          content: string
+          similarity: number
+        }[]
       }
       match_twin_documents: {
         Args: { p_embedding: string; p_match_count?: number; p_twin_id: string }
