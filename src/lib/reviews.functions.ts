@@ -7,8 +7,7 @@
  */
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { PLAN_LIMITS, getPlan, logEvent } from "./auth.functions";
+import { logEvent } from "./auth.functions";
 
 export type MinedReview = {
   source: string;
@@ -207,18 +206,10 @@ function detectFraudSignals(reviews: MinedReview[]): { risk: number; signals: st
 }
 
 export const mineReviews = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) =>
     z.object({ twinId: z.string().uuid(), refresh: z.boolean().optional() }).parse(i),
   )
-  .handler(async ({ data, context }): Promise<RealityReport> => {
-    const plan = await getPlan(context.userId);
-    if (!PLAN_LIMITS[plan].reviewMining) {
-      throw new Error(
-        "Review mining is a Pro feature. Upgrade to pull real Trustpilot and Amazon reviews for this site.",
-      );
-    }
-
+  .handler(async ({ data }): Promise<RealityReport> => {
     const apiKey = process.env.FIRECRAWL_API_KEY;
     if (!apiKey) throw new Error("Firecrawl is not configured. Connect the Firecrawl connector first.");
 
@@ -267,7 +258,7 @@ export const mineReviews = createServerFn({ method: "POST" })
     }
 
     if (found.length === 0) {
-      await logEvent("review_mining_no_sources", { twinId: data.twinId, host: twin.host }, { userId: context.userId, level: "warn" });
+      await logEvent("review_mining_no_sources", { twinId: data.twinId, host: twin.host }, { level: "warn" });
       throw new Error(
         `No public Trustpilot or Amazon review pages were found for ${twin.host}. This brand may not be listed on those platforms yet.`,
       );
@@ -346,7 +337,6 @@ export const mineReviews = createServerFn({ method: "POST" })
     await logEvent(
       "review_mining_complete",
       { twinId: data.twinId, host: twin.host, count: reviews.length, sources: [...usedSources] },
-      { userId: context.userId },
     );
 
     return buildReport(twin, reviews as never[], analysis);

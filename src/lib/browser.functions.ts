@@ -1,7 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { PLAN_LIMITS, getPlan } from "./auth.functions";
 
 /**
  * Live Interaction bridge.
@@ -55,14 +53,8 @@ const Input = z.object({
 });
 
 export const runBrowserActions = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => Input.parse(i))
-  .handler(async ({ data, context }): Promise<BrowserResult> => {
-    const plan = await getPlan(context.userId);
-    if (!PLAN_LIMITS[plan].browser) {
-      throw new Error("Live Interaction is a Pro feature. Upgrade to drive real pages from PIKR.");
-    }
-
+  .handler(async ({ data }): Promise<BrowserResult> => {
     const base = data.workerUrl.replace(/\/+$/, "");
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 90_000);
@@ -113,7 +105,6 @@ export const runBrowserActions = createServerFn({ method: "POST" })
   });
 
 export const pingBrowserWorker = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) =>
     z.object({ workerUrl: z.string().url().max(300), workerToken: z.string().min(8).max(200) }).parse(i),
   )
