@@ -18,6 +18,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as ApiPublicV1SlugRouteImport } from './routes/api/public/v1.$slug'
 
 const TwinsRoute = TwinsRouteImport.update({
   id: '/twins',
@@ -63,6 +64,11 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicV1SlugRoute = ApiPublicV1SlugRouteImport.update({
+  id: '/api/public/v1/$slug',
+  path: '/api/public/v1/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -73,6 +79,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/api/public/v1/$slug': typeof ApiPublicV1SlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/api/public/v1/$slug': typeof ApiPublicV1SlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
   '/auth/callback': typeof AuthCallbackRoute
+  '/api/public/v1/$slug': typeof ApiPublicV1SlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -107,6 +116,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/api/chat'
     | '/auth/callback'
+    | '/api/public/v1/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/api/chat'
     | '/auth/callback'
+    | '/api/public/v1/$slug'
   id:
     | '__root__'
     | '/'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/api/chat'
     | '/auth/callback'
+    | '/api/public/v1/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -138,6 +150,7 @@ export interface RootRouteChildren {
   CompareRoute: typeof CompareRoute
   TwinsRoute: typeof TwinsRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiPublicV1SlugRoute: typeof ApiPublicV1SlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -205,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/v1/$slug': {
+      id: '/api/public/v1/$slug'
+      path: '/api/public/v1/$slug'
+      fullPath: '/api/public/v1/$slug'
+      preLoaderRoute: typeof ApiPublicV1SlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -237,6 +257,7 @@ const rootRouteChildren: RootRouteChildren = {
   CompareRoute: CompareRoute,
   TwinsRoute: TwinsRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiPublicV1SlugRoute: ApiPublicV1SlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
