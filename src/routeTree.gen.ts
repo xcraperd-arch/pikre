@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TwinsRouteImport } from './routes/twins'
 import { Route as IngestRouteImport } from './routes/ingest'
+import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AnalyzeRouteImport } from './routes/analyze'
@@ -29,6 +30,11 @@ const TwinsRoute = TwinsRouteImport.update({
 const IngestRoute = IngestRouteImport.update({
   id: '/ingest',
   path: '/ingest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiscoverRoute = DiscoverRouteImport.update({
+  id: '/discover',
+  path: '/discover',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompareRoute = CompareRouteImport.update({
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/analyze': typeof AnalyzeRoute
   '/auth': typeof AuthRouteWithChildren
   '/compare': typeof CompareRoute
+  '/discover': typeof DiscoverRoute
   '/ingest': typeof IngestRoute
   '/twins': typeof TwinsRoute
   '/settings': typeof AuthenticatedSettingsRoute
@@ -93,6 +100,7 @@ export interface FileRoutesByTo {
   '/analyze': typeof AnalyzeRoute
   '/auth': typeof AuthRouteWithChildren
   '/compare': typeof CompareRoute
+  '/discover': typeof DiscoverRoute
   '/ingest': typeof IngestRoute
   '/twins': typeof TwinsRoute
   '/settings': typeof AuthenticatedSettingsRoute
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/analyze': typeof AnalyzeRoute
   '/auth': typeof AuthRouteWithChildren
   '/compare': typeof CompareRoute
+  '/discover': typeof DiscoverRoute
   '/ingest': typeof IngestRoute
   '/twins': typeof TwinsRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
     | '/analyze'
     | '/auth'
     | '/compare'
+    | '/discover'
     | '/ingest'
     | '/twins'
     | '/settings'
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
     | '/analyze'
     | '/auth'
     | '/compare'
+    | '/discover'
     | '/ingest'
     | '/twins'
     | '/settings'
@@ -146,6 +157,7 @@ export interface FileRouteTypes {
     | '/analyze'
     | '/auth'
     | '/compare'
+    | '/discover'
     | '/ingest'
     | '/twins'
     | '/_authenticated/settings'
@@ -160,6 +172,7 @@ export interface RootRouteChildren {
   AnalyzeRoute: typeof AnalyzeRoute
   AuthRoute: typeof AuthRouteWithChildren
   CompareRoute: typeof CompareRoute
+  DiscoverRoute: typeof DiscoverRoute
   IngestRoute: typeof IngestRoute
   TwinsRoute: typeof TwinsRoute
   ApiChatRoute: typeof ApiChatRoute
@@ -180,6 +193,13 @@ declare module '@tanstack/react-router' {
       path: '/ingest'
       fullPath: '/ingest'
       preLoaderRoute: typeof IngestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/discover': {
+      id: '/discover'
+      path: '/discover'
+      fullPath: '/discover'
+      preLoaderRoute: typeof DiscoverRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compare': {
@@ -275,6 +295,7 @@ const rootRouteChildren: RootRouteChildren = {
   AnalyzeRoute: AnalyzeRoute,
   AuthRoute: AuthRouteWithChildren,
   CompareRoute: CompareRoute,
+  DiscoverRoute: DiscoverRoute,
   IngestRoute: IngestRoute,
   TwinsRoute: TwinsRoute,
   ApiChatRoute: ApiChatRoute,
