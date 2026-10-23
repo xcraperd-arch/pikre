@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TwinsRouteImport } from './routes/twins'
+import { Route as IngestRouteImport } from './routes/ingest'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AnalyzeRouteImport } from './routes/analyze'
@@ -23,6 +24,11 @@ import { Route as ApiPublicV1SlugRouteImport } from './routes/api/public/v1.$slu
 const TwinsRoute = TwinsRouteImport.update({
   id: '/twins',
   path: '/twins',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IngestRoute = IngestRouteImport.update({
+  id: '/ingest',
+  path: '/ingest',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompareRoute = CompareRouteImport.update({
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/analyze': typeof AnalyzeRoute
   '/auth': typeof AuthRouteWithChildren
   '/compare': typeof CompareRoute
+  '/ingest': typeof IngestRoute
   '/twins': typeof TwinsRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByTo {
   '/analyze': typeof AnalyzeRoute
   '/auth': typeof AuthRouteWithChildren
   '/compare': typeof CompareRoute
+  '/ingest': typeof IngestRoute
   '/twins': typeof TwinsRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
@@ -99,6 +107,7 @@ export interface FileRoutesById {
   '/analyze': typeof AnalyzeRoute
   '/auth': typeof AuthRouteWithChildren
   '/compare': typeof CompareRoute
+  '/ingest': typeof IngestRoute
   '/twins': typeof TwinsRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
@@ -112,6 +121,7 @@ export interface FileRouteTypes {
     | '/analyze'
     | '/auth'
     | '/compare'
+    | '/ingest'
     | '/twins'
     | '/settings'
     | '/api/chat'
@@ -123,6 +133,7 @@ export interface FileRouteTypes {
     | '/analyze'
     | '/auth'
     | '/compare'
+    | '/ingest'
     | '/twins'
     | '/settings'
     | '/api/chat'
@@ -135,6 +146,7 @@ export interface FileRouteTypes {
     | '/analyze'
     | '/auth'
     | '/compare'
+    | '/ingest'
     | '/twins'
     | '/_authenticated/settings'
     | '/api/chat'
@@ -148,6 +160,7 @@ export interface RootRouteChildren {
   AnalyzeRoute: typeof AnalyzeRoute
   AuthRoute: typeof AuthRouteWithChildren
   CompareRoute: typeof CompareRoute
+  IngestRoute: typeof IngestRoute
   TwinsRoute: typeof TwinsRoute
   ApiChatRoute: typeof ApiChatRoute
   ApiPublicV1SlugRoute: typeof ApiPublicV1SlugRoute
@@ -160,6 +173,13 @@ declare module '@tanstack/react-router' {
       path: '/twins'
       fullPath: '/twins'
       preLoaderRoute: typeof TwinsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ingest': {
+      id: '/ingest'
+      path: '/ingest'
+      fullPath: '/ingest'
+      preLoaderRoute: typeof IngestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compare': {
@@ -255,6 +275,7 @@ const rootRouteChildren: RootRouteChildren = {
   AnalyzeRoute: AnalyzeRoute,
   AuthRoute: AuthRouteWithChildren,
   CompareRoute: CompareRoute,
+  IngestRoute: IngestRoute,
   TwinsRoute: TwinsRoute,
   ApiChatRoute: ApiChatRoute,
   ApiPublicV1SlugRoute: ApiPublicV1SlugRoute,
