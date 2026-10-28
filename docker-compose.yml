@@ -1,0 +1,22 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set me}
+      POSTGRES_DB: pikr
+    volumes: [pgdata:/var/lib/postgresql/data]
+    ports: ["5432:5432"]
+  browser-worker:
+    build: ./infra/browser-worker
+    environment:
+      WORKER_TOKEN: ${BROWSER_WORKER_TOKEN:?set me}
+    ports: ["3001:3001"]
+  app:
+    build: .
+    depends_on: [db, browser-worker]
+    env_file: .env
+    environment:
+      BROWSER_WORKER_URL: http://browser-worker:3001
+    ports: ["8080:8080"]
+volumes:
+  pgdata: {}
