@@ -10,10 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TwinsRouteImport } from './routes/twins'
+import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as IngestRouteImport } from './routes/ingest'
+import { Route as InfrastructureRouteImport } from './routes/infrastructure'
 import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ApiFactoryRouteImport } from './routes/api-factory'
 import { Route as AnalyzeRouteImport } from './routes/analyze'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
@@ -27,9 +30,19 @@ const TwinsRoute = TwinsRouteImport.update({
   path: '/twins',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsRoute = ToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IngestRoute = IngestRouteImport.update({
   id: '/ingest',
   path: '/ingest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InfrastructureRoute = InfrastructureRouteImport.update({
+  id: '/infrastructure',
+  path: '/infrastructure',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DiscoverRoute = DiscoverRouteImport.update({
@@ -45,6 +58,11 @@ const CompareRoute = CompareRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFactoryRoute = ApiFactoryRouteImport.update({
+  id: '/api-factory',
+  path: '/api-factory',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnalyzeRoute = AnalyzeRouteImport.update({
@@ -85,10 +103,13 @@ const ApiPublicV1SlugRoute = ApiPublicV1SlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analyze': typeof AnalyzeRoute
+  '/api-factory': typeof ApiFactoryRoute
   '/auth': typeof AuthRouteWithChildren
   '/compare': typeof CompareRoute
   '/discover': typeof DiscoverRoute
+  '/infrastructure': typeof InfrastructureRoute
   '/ingest': typeof IngestRoute
+  '/tools': typeof ToolsRoute
   '/twins': typeof TwinsRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
@@ -98,10 +119,13 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analyze': typeof AnalyzeRoute
+  '/api-factory': typeof ApiFactoryRoute
   '/auth': typeof AuthRouteWithChildren
   '/compare': typeof CompareRoute
   '/discover': typeof DiscoverRoute
+  '/infrastructure': typeof InfrastructureRoute
   '/ingest': typeof IngestRoute
+  '/tools': typeof ToolsRoute
   '/twins': typeof TwinsRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
@@ -113,10 +137,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/analyze': typeof AnalyzeRoute
+  '/api-factory': typeof ApiFactoryRoute
   '/auth': typeof AuthRouteWithChildren
   '/compare': typeof CompareRoute
   '/discover': typeof DiscoverRoute
+  '/infrastructure': typeof InfrastructureRoute
   '/ingest': typeof IngestRoute
+  '/tools': typeof ToolsRoute
   '/twins': typeof TwinsRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/api/chat': typeof ApiChatRoute
@@ -128,10 +155,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/analyze'
+    | '/api-factory'
     | '/auth'
     | '/compare'
     | '/discover'
+    | '/infrastructure'
     | '/ingest'
+    | '/tools'
     | '/twins'
     | '/settings'
     | '/api/chat'
@@ -141,10 +171,13 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/analyze'
+    | '/api-factory'
     | '/auth'
     | '/compare'
     | '/discover'
+    | '/infrastructure'
     | '/ingest'
+    | '/tools'
     | '/twins'
     | '/settings'
     | '/api/chat'
@@ -155,10 +188,13 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/analyze'
+    | '/api-factory'
     | '/auth'
     | '/compare'
     | '/discover'
+    | '/infrastructure'
     | '/ingest'
+    | '/tools'
     | '/twins'
     | '/_authenticated/settings'
     | '/api/chat'
@@ -170,10 +206,13 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AnalyzeRoute: typeof AnalyzeRoute
+  ApiFactoryRoute: typeof ApiFactoryRoute
   AuthRoute: typeof AuthRouteWithChildren
   CompareRoute: typeof CompareRoute
   DiscoverRoute: typeof DiscoverRoute
+  InfrastructureRoute: typeof InfrastructureRoute
   IngestRoute: typeof IngestRoute
+  ToolsRoute: typeof ToolsRoute
   TwinsRoute: typeof TwinsRoute
   ApiChatRoute: typeof ApiChatRoute
   ApiPublicV1SlugRoute: typeof ApiPublicV1SlugRoute
@@ -188,11 +227,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TwinsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools': {
+      id: '/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof ToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ingest': {
       id: '/ingest'
       path: '/ingest'
       fullPath: '/ingest'
       preLoaderRoute: typeof IngestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/infrastructure': {
+      id: '/infrastructure'
+      path: '/infrastructure'
+      fullPath: '/infrastructure'
+      preLoaderRoute: typeof InfrastructureRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/discover': {
@@ -214,6 +267,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api-factory': {
+      id: '/api-factory'
+      path: '/api-factory'
+      fullPath: '/api-factory'
+      preLoaderRoute: typeof ApiFactoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/analyze': {
@@ -293,10 +353,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AnalyzeRoute: AnalyzeRoute,
+  ApiFactoryRoute: ApiFactoryRoute,
   AuthRoute: AuthRouteWithChildren,
   CompareRoute: CompareRoute,
   DiscoverRoute: DiscoverRoute,
+  InfrastructureRoute: InfrastructureRoute,
   IngestRoute: IngestRoute,
+  ToolsRoute: ToolsRoute,
   TwinsRoute: TwinsRoute,
   ApiChatRoute: ApiChatRoute,
   ApiPublicV1SlugRoute: ApiPublicV1SlugRoute,

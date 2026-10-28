@@ -1,6 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { UserMenu } from "@/components/UserMenu";
+import { SiteNav } from "@/components/PageShell";
 import { AiGlobe } from "@/components/AiGlobe";
 import { LinkConsole } from "@/components/LinkConsole";
 import { FeatureGrid } from "@/components/FeatureGrid";
@@ -23,36 +23,6 @@ export const Route = createFileRoute("/")({
     ],
   }),
 });
-
-function Nav() {
-  return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
-      <div className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between px-6">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-[13px] font-bold text-primary-foreground">
-            P
-          </div>
-          <span className="text-sm font-semibold tracking-tight">PIKR</span>
-        </Link>
-        <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
-          <a href="#features" className="transition-colors hover:text-foreground">Features</a>
-          <a href="#how" className="transition-colors hover:text-foreground">How it works</a>
-          <Link to="/twins" className="transition-colors hover:text-foreground">Library</Link>
-          <Link to="/compare" search={{}} className="transition-colors hover:text-foreground">Compare</Link>
-        </nav>
-        <div className="flex items-center gap-2">
-          <a
-            href="#console"
-            className="hidden h-8 items-center gap-1.5 rounded-lg border border-border px-3 text-sm font-medium transition-colors hover:bg-accent sm:inline-flex"
-          >
-            Analyze a link <ArrowRight className="h-3.5 w-3.5" />
-          </a>
-          <UserMenu />
-        </div>
-      </div>
-    </header>
-  );
-}
 
 function Hero() {
   return (
@@ -188,7 +158,7 @@ function CTA() {
 function Index() {
   return (
     <div className="min-h-screen">
-      <Nav />
+      <SiteNav />
       <Hero />
       <Features />
       <HowItWorks />
